@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUHACKERS Space Education Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a2a;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 10px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 5px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 10px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4fc3f7;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #4fc3f7;
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        /* Solar System */
+        .solar-system {
+            flex: 1;
+            position: relative;
+            height: 500px;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .solar-system-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            width: 350px;
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .chat-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4fc3f7;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(30, 35, 55, 0.5);
+            border-radius: 10px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 90%;
+        }
+        
+        .user-message {
+            background: rgba(25, 118, 210, 0.3);
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .bot-message {
+            background: rgba(48, 63, 159, 0.3);
+            margin-right: auto;
+        }
+        
+        .message-content {
+            line-height: 1.5;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 25px;
+            border: 1px solid #4fc3f7;
+            background: rgba(30, 35, 55, 0.8);
+            color: white;
+            outline: none;
+        }
+        
+        .chat-input button {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: none;
+            background: #4fc3f7;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .chat-input button:hover {
+            background: #29b6f6;
+        }
+        
+        /* Info Section */
+        .info-section {
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .info-header {
+            text-align: center;
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .info-content {
+            line-height: 1.6;
+        }
+        
+        .info-content h3 {
+            color: #4fc3f7;
+            margin: 15px 0 10px;
+        }
+        
+        .info-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .info-content li {
+            margin-bottom: 8px;
+        }
+        
+        .info-content mark {
+            background-color: rgba(79, 195, 247, 0.3);
+            color: #4fc3f7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .info-image {
+            width: 100%;
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .info-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Graph Section */
+        .graph-section {
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .graph-header {
+            text-align: center;
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .graph-container {
+            width: 100%;
+            height: 300px;
+            background: rgba(30, 35, 55, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                width: 100%;
+            }
+        }
+        
+        /* Animation for text */
+        .typing-animation::after {
+            content: "|";
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #4fc3f7;
+            border-top: 1px solid rgba(79, 195, 247, 0.3);
+            margin-top: 30px;
+        }
+        
+        /* Highlight effect for Mars and Moon */
+        .planet-highlight {
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <i class="fas fa-rocket"></i> EDUHACKERS
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Solar System</a>
+                <a href="#">Space Facts</a>
+                <a href="#">About Us</a>
+            </div>
+        </nav>
+        
+        <div class="main-content">
+            <div class="solar-system">
+                <canvas id="solarSystemCanvas" class="solar-system-canvas"></canvas>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-robot"></i> Space Explorer AI
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            Hello! I'm your Space Explorer AI. Ask me anything about our solar system or the provided scientific topics!
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Ask about space or science topics...">
+                    <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="info-header">Scientific Information</h2>
+            <div class="info-content" id="infoContent">
+                <p>Ask a question to the AI to see detailed information from the provided scientific content here!</p>
+            </div>
+        </div>
+        
+        <div class="graph-section">
+            <h2 class="graph-header">Data Analysis</h2>
+            <div class="graph-container">
+                <canvas id="dataGraph"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Made by Danish Khan, Dev Mallick, Purvaraj Singh Jadeja, Krushnaraj, Poojan and Rishit</p>
+    </footer>
+
+    <script>
+        // Solar system visualization
+        const canvas = document.getElementById('solarSystemCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        
+        // Center of the solar system
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        // Planet data: name, radius, distance, color, speed
+        const planets = [
+            { name: 'Sun', radius: 30, distance: 0, color: '#FFD700', speed: 0 },
+            { name: 'Mercury', radius: 8, distance: 60, color: '#A9A9A9', speed: 0.02 },
+            { name: 'Venus', radius: 12, distance: 90, color: '#FFA500', speed: 0.015 },
+            { name: 'Earth', radius: 13, distance: 130, color: '#1E90FF', speed: 0.01 },
+            { name: 'Mars', radius: 10, distance: 170, color: '#FF4500', speed: 0.008, highlight: true },
+            { name: 'Jupiter', radius: 25, distance: 220, color: '#FF8C00', speed: 0.004 },
+            { name: 'Saturn', radius: 22, distance: 280, color: '#DAA520', speed: 0.003 },
+            { name: 'Uranus', radius: 18, distance: 340, color: '#87CEFA', speed: 0.002 },
+            { name: 'Neptune', radius: 17, distance: 400, color: '#4169E1', speed: 0.001 }
+        ];
+        
+        // Moon for Earth
+        const moon = {
+            radius: 4,
+            distance: 20,
+            color: '#D3D3D3',
+            speed: 0.05,
+            highlight: true
+        };
+        
+        // Animation angles
+        let angles = Array(planets.length).fill(0);
+        let moonAngle = 0;
+        
+        // Draw the solar system
+        function drawSolarSystem() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw orbits
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            for (let i = 1; i < planets.length; i++) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, planets[i].distance, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Draw planets
+            for (let i = 0; i < planets.length; i++) {
+                const planet = planets[i];
+                
+                // Calculate position
+                const x = centerX + Math.cos(angles[i]) * planet.distance;
+                const y = centerY + Math.sin(angles[i]) * planet.distance;
+                
+                // Draw planet
+                ctx.beginPath();
+                ctx.arc(x, y, planet.radius, 0, Math.PI * 2);
+                ctx.fillStyle = planet.color;
+                ctx.fill();
+                
+                // Add glow for highlighted planets
+                if (planet.highlight) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, planet.radius + 5, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                    ctx.fill();
+                }
+                
+                // Draw Moon for Earth
+                if (planet.name === 'Earth') {
+                    const moonX = x + Math.cos(moonAngle) * moon.distance;
+                    const moonY = y + Math.sin(moonAngle) * moon.distance;
+                    
+                    ctx.beginPath();
+                    ctx.arc(moonX, moonY, moon.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = moon.color;
+                    ctx.fill();
+                    
+                    // Add glow for moon
+                    if (moon.highlight) {
+                        ctx.beginPath();
+                        ctx.arc(moonX, moonY, moon.radius + 3, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                        ctx.fill();
+                    }
+                }
+           
